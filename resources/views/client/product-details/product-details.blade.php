@@ -71,7 +71,7 @@
                                 <p>{{ $productDetail->description }}
                                 </p>
                             </div>
-                            <form method="post" action="{{Route('products.addCart')}}" id="product_form_10508262282" accept-charset="UTF-8"
+                            <form method="post" action="{{Route('products.addCart',$productDetail)}}" id="product_form_10508262282" accept-charset="UTF-8"
                                 class="product-form product-form-product-template hidedropdown"
                                 enctype="multipart/form-data">
                                 @csrf

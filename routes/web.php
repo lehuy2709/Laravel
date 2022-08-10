@@ -23,9 +23,9 @@ Route::get('/', [HomeController::class, 'index'])->middleware('CheckStatus')->na
 Route::get('contact', function () {
     return view('client.contact.contact');
 })->name('contact');
-Route::get('cart', function () {
-    return view('client.cart.cart');
-})->name('cart');
+// Route::get('cart', function () {
+//     return view('client.cart.cart');
+// })->name('cart');
 
 // chi tiết sản phẩm
 Route::middleware('CheckStatus')->get('product/{cateslug}/{id}-{slug}', [ProductController::class, 'productDetail'])->name('productDetail');
@@ -39,10 +39,12 @@ Route::middleware('CheckStatus')->prefix('/products')->name('products.')->group(
     // bình luận
     Route::post('/postcomment/{prodId}', [CommentController::class, 'postComment'])->name('postComment');
     // thêm sp giỏ hàng
-    Route::post('/addCart', [CartController::class, 'addCart'])->name('addCart');
+    Route::post('/addCart/{product}', [CartController::class, 'addCart'])->name('addCart');
 });
 // tìm kiếm sản phẩm
 Route::get('search', [ProductController::class, 'searchProduct'])->name('search');
+// cart
+Route::get('cart',[CartController::class,'showCart'])->name('cart');
 
 Route::middleware('guest')->prefix('/auth')->name('auth.')->group(function () {
     Route::get('/login', [AuthController::class, 'getLogin'])->name('getLogin');

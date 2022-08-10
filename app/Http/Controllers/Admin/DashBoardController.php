@@ -12,3 +12,4 @@ class DashBoardController extends Controller
         return view('admin.home.home');
     }
 }
+
