@@ -40,11 +40,18 @@ Route::middleware('CheckStatus')->prefix('/products')->name('products.')->group(
     Route::post('/postcomment/{prodId}', [CommentController::class, 'postComment'])->name('postComment');
     // thêm sp giỏ hàng
     Route::post('/addCart/{product}', [CartController::class, 'addCart'])->name('addCart');
+    Route::post('/updateCart', [CartController::class, 'updateCart'])->name('updateCart');
+
+
 });
+
 // tìm kiếm sản phẩm
 Route::get('search', [ProductController::class, 'searchProduct'])->name('search');
 // cart
 Route::get('cart',[CartController::class,'showCart'])->name('cart');
+
+Route::get('cart/delete-cart/{id}', [CartController::class, 'deleteCart'])->name('deleteCart');
+
 
 Route::middleware('guest')->prefix('/auth')->name('auth.')->group(function () {
     Route::get('/login', [AuthController::class, 'getLogin'])->name('getLogin');

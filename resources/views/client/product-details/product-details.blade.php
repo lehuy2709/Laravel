@@ -84,6 +84,7 @@
                                                 value="{{ $productDetail->size->name }}">
                                             <label class="swatchLbl small" for="swatch-1-xs"
                                                 title="XS">{{ $productDetail->size->name }}</label>
+                                                <input type="hidden" name="size" value="{{$productDetail->size->name}}">
                                         </div>
                                     </div>
                                 </div>
@@ -96,8 +97,8 @@
                                                         class="fa anm anm-minus-r" aria-hidden="true"></i></a>
                                                 <input type="text" id="Quantity" name="quantity" value="1"
                                                     class="product-form__input qty">
-                                                <input type="hidden"  name="productId_hidden" value="{{$productDetail->id}}"
-                                                    class="product-form__input qty">
+                                                {{-- <input type="hidden"  name="productId_hidden" value="{{$productDetail->id}}"
+                                                    class="product-form__input qty"> --}}
                                                 <a class="qtyBtn plus" href="javascript:void(0);"><i
                                                         class="fa anm anm-plus-r" aria-hidden="true"></i></a>
                                             </div>

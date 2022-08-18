@@ -65,72 +65,45 @@ class CartController extends Controller
     //     // session()->put('cart', $cart);
     //     // return redirect()->route('cart')->with('success', 'Thêm vào giỏ hàng thành công');
     // }
-    public function addCart(Product $product)
+    public function addCart(Product $product, Request $request)
+    {
+
+        $cart = session()->get('cart');
+
+        // trả về null
+
+        if (isset($cart[$product->id])) {
+            $cart[$product->id]['quantity'] += $request->quantity;
+            session()->put('cart', $cart);
+            return redirect()->route('cart')->with('success', "Thêm vào giỏ hàng thành công");
+        }
+        $cart[$product->id] = [
+            'name' => $product->name,
+            'quantity' => $request->quantity,
+            'price' => $product->price,
+            'image' => $product->image,
+            'size' => $request->size
+        ];
+        session()->put('cart', $cart);
+        return redirect()->route('cart')->with('success', "Thêm vào giỏ hàng thành công");
+    }
+
+    public function updateCart(Request $request)
     {
         $cart = session()->get('cart');
-        if (!$cart) {
-            $cart = [$product->id => $this->sessionData($product)];
-            return $this->setSessionAndReturnResponse($cart);
-        }
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity']++;
-            return $this->setSessionAndReturnResponse($cart);
-        }
-        $cart[$product->id] = $this->sessionData($product);
-        return $this->setSessionAndReturnResponse($cart);
-
-    }
-
-    // public function changeQty(Request $request, Product $product)
-    // {
-    //     $cart = session()->get('cart');
-    //     if ($request->change_to === 'down') {
-    //         if (isset($cart[$product->id])) {
-    //             if ($cart[$product->id]['quantity'] > 1) {
-    //                 $cart[$product->id]['quantity']--;
-    //                 return $this->setSessionAndReturnResponse($cart);
-    //             } else {
-    //                 return $this->removeFromCart($product->id);
-    //             }
-    //         }
-    //     } else {
-    //         if (isset($cart[$product->id])) {
-    //             $cart[$product->id]['quantity']++;
-    //             return $this->setSessionAndReturnResponse($cart);
-    //         }
-    //     }
-
-    //     return back();
-    // }
-
-    // public function removeFromCart($id)
-    // {
-    //     $cart = session()->get('cart');
-
-    //     if (isset($cart[$id])) {
-    //         unset($cart[$id]);
-    //         session()->put('cart', $cart);
-    //     }
-    //     return redirect()->back()->with('success', "Removed from Cart");
-    // }
-
-    protected function sessionData(Product $product)
-    {
-        return [
-            'name' => $product->name,
-            'quantity' => 1,
-            'price' => $product->price,
-            'image' => $product->image
-        ];
-    }
-
-    protected function setSessionAndReturnResponse($cart)
-    {
+        $cart[$request->idProd]["quantity"] = $request->quantity;
         session()->put('cart', $cart);
-        return redirect()->route('cart')->with('success', "Added to Cart");
+        return redirect()->back();
     }
 
+    public function deleteCart($id)
+    {
+        $cart = session()->get('cart');
 
-
-
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+        }
+        return redirect()->back()->with('success', "Xóa Giỏ Hàng Thành Công");
+    }
 }
